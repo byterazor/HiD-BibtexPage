@@ -61,7 +61,15 @@ sub generate {
                $pub{title}=$entry->get('title') . ", " . $entry->get('school') . ", " . $entry->get('address');
              } elsif($entry->type eq "inproceedings") {
                $pub{title}=$entry->get('title') . ", " .$entry->get('booktitle') . ", ". $entry->get('address');
-             } else {
+             } elsif($entry->type eq "misc") {
+                $pub{title}=$entry->get('title');
+                if (defined($entry->get('howpublished')) && length($entry->get('howpublished'))>0) {
+                  $pub{title}.="," . $entry->get('howpublished');
+                }
+                if (defined($entry->get('address')) && length($entry->get('address'))>0) {
+                  $pub{title}.="," . $entry->get('address');
+                }
+             }else {
                $pub{title}=$entry->get('title');
              }
              $pub{year}=$entry->get('year');
@@ -74,7 +82,7 @@ sub generate {
     push(@publications, \%pub);
   }
 
-    @publications=reverse(@publications);
+    @publications=sort { $b->{year} <=> $a->{year} } @publications;
 
   # create the new page
   my $page = HiD::Page->new({
