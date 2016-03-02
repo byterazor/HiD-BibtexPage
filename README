@@ -1,0 +1,32 @@
+              HiD::BibtexPage
+            ------------------
+
+
+Plugin for the Static website generation system HiD (genehack/HiD).
+The Plugin generates a Page with a list of publications given as
+ab Bibtex File.
+
+Installation:
+--------------
+
+At the moment you just copy the src/BibtexPage.pm file into the _plugins
+directory of your HiD environment.
+
+(Future: create a perl module installable from CPAN)
+
+
+Configuration:
+---------------
+
+in your _config.yml add the following options:
+
+bibtex_page:
+    generate: true
+    bibtex: _publications.bib
+    layout: _layouts/bibtex.html
+
+
+The bibtex options gives the path to the bibtex file to generate the page from.
+The layout options selects the layout to use. An example layout can be found in
+examples. It uses the Skeleton css framework, jqeury and jquery-ui. Please make
+sure you have your HiD system setup correctly.
