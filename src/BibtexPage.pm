@@ -59,6 +59,8 @@ sub generate {
              $pub{author}=\@last;
              if ($entry->type eq "mastersthesis" || $entry->type eq "phdthesis") {
                $pub{title}=$entry->get('title') . ", " . $entry->get('school') . ", " . $entry->get('address');
+             } elsif($entry->type eq "inproceedings") {
+               $pub{title}=$entry->get('title') . ", " .$entry->get('booktitle') . ", ". $entry->get('address');
              } else {
                $pub{title}=$entry->get('title');
              }
