@@ -19,7 +19,9 @@ my $type_map = {
   'article'       => 'Journal',
   'misc'          => 'Misc',
   'mastersthesis' => 'Diploma Thesis',
-  'unpublished'   => 'Unpublished'
+  'unpublished'   => 'Unpublished',
+  'inbook'        => 'Chapter in Book',
+  'incollection'  => 'Paper Collection'
 };
 
 sub generate {
@@ -69,7 +71,22 @@ sub generate {
                 if (defined($entry->get('address')) && length($entry->get('address'))>0) {
                   $pub{title}.="," . $entry->get('address');
                 }
-             }else {
+             } elsif($entry->type eq "inbook") {
+               $pub{title} = "Chap: " . $entry->get('chapter') . ", Book: " . $entry->get('title');
+               $pub{title} .= ", Editor: " . $entry->get('editor') unless !defined($entry->get('editor'));
+               $pub{title} .= ", " . $entry->get('publisher') unless !defined($entry->get('publisher'));
+             } elsif($entry->type eq "incollection") {
+               $pub{title} = $entry->get('title') .", " .  $entry->get('booktitle');
+               $pub{title} .= " Vol. " . $entry->get('volume') unless !defined($entry->get('volume'));
+               $pub{title} .= ", Editor: " . $entry->get('editor') unless !defined($entry->get('editor'));
+               $pub{title} .= ", " . $entry->get('publisher') unless !defined($entry->get('publisher'));
+             } elsif($entry->type eq "article") {
+               $pub{title} = $entry->get('title') .", " .  $entry->get('journal');
+               $pub{title} .= " Issue " . $entry->get('number') unless !defined($entry->get('number'));
+               $pub{title} .= " Vol. " . $entry->get('volume') unless !defined($entry->get('volume'));
+               $pub{title} .= ", " . $entry->get('publisher') unless !defined($entry->get('publisher'));
+             }
+             else {
                $pub{title}=$entry->get('title');
              }
              $pub{year}=$entry->get('year');
